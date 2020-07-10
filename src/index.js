@@ -7,6 +7,7 @@ import path from 'path';
 
 import splitByLastDot from './helpers/splitByLastDot';
 import isConstructor from './helpers/isConstrutor';
+import wrapAsync from './helpers/wrapAsync';
 
 const cwd = process.cwd();
 
@@ -79,7 +80,7 @@ const mapRoutes = (routes, pathToController, middlewareGenerals = []) => {
       contr = new handler();
     }
 
-    router.route(myPath)[requestMethod](middlewares, contr[controllerMethod]);
+    router.route(myPath)[requestMethod](middlewares, wrapAsync(contr[controllerMethod]));
   });
 
   return router;
